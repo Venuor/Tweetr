@@ -1,0 +1,20 @@
+{
+  "name": "Tweetr",
+  "version": "1.0.0",
+  "description": "Educational Project for the course: Modern Web Applications and Services with Node.js featuring a Twitter copycat",
+  "main": "index.js",
+  "repository": "https://github.com/Venuor/Tweetr",
+  "author": "Venuor",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "handlebars": "^4.0.11",
+    "handlebars-intl": "^1.1.2",
+    "hapi": "^16.6.2",
+    "hapi-auth-cookie": "^7.0.0",
+    "inert": "^4.2.1",
+    "joi": "^13.0.2",
+    "mongoose": "^5.0.0-rc1",
+    "vision": "^4.1.1"
+  }
+}
