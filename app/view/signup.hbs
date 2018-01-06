@@ -1,0 +1,29 @@
+{{> menu}}
+
+<section class="ui grid">
+    <div class="ui raised segment five wide centered column">
+        <form action="/signup" method="post" class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Username" />
+            </div>
+            <div class="field">
+                <label>Display name</label>
+                <input type="text" name="displayname" placeholder="Display name" />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password" />
+            </div>
+            <div class="field">
+                <label>Password (repeated)</label>
+                <input type="password" name="passwordConfirm" placeholder="Password (repeated)" />
+            </div>
+            <div class="field">
+                <label>E-Mail</label>
+                <input type="text" name="email" placeholder="E-Mail" />
+            </div>
+            <input type="submit" class="ui primary button" value="Sign up" />
+        </form>
+    </div>
+</section>

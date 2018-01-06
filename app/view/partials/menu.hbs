@@ -1,0 +1,28 @@
+<nav class="ui bottom attached menu">
+    <div class="left menu">
+        <a class="header item" href="/">Tweetr</a>
+        {{#if isLoggedIn}}
+            <a class="item" href="/home">Home</a>
+        {{/if}}
+    </div>
+
+    <div class="right menu">
+        {{#if isLoggedIn}}
+            <div class="ui dropdown item">
+                {{username}}
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="/settings">Settings</a>
+                    <a class="item" href="/password">Change Password</a>
+                    <a class="item" href="/logout">Logout</a>
+                </div>
+            </div>
+        {{else}}
+            <a class="item" href="/signup"> Signup</a>
+            <a class="item" href="/login">  Login</a>
+        {{/if}}
+    </div>
+</nav>
+<script>
+    $('.ui.dropdown').dropdown();
+</script>
