@@ -61,3 +61,14 @@ exports.getSubscribedTweets = function (user) {
         throw err;
       });
 };
+
+exports.getAllTweets = function () {
+  return Tweet.find({})
+      .sort({ 'date': 'desc' })
+      .populate('user')
+      .then(tweets => {
+        return tweets;
+      }).catch(err => {
+        throw err;
+      });
+};

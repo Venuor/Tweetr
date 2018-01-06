@@ -20,44 +20,7 @@
                 </article>
             {{/if}}
 
-            {{#each tweets}}
-                <article class="ui segment">
-                    <div class="ui feed">
-                        <div class="event">
-                            <div class="label">
-                                {{#if this.user.image}}
-                                    <div class="image container"
-                                         style="background: url('/img/{{this.user.image}}'); background-size: cover; border-radius: 500rem;"></div>
-                                {{else}}
-                                    <img src="/images/placeholder.png" />
-                                {{/if}}
-                            </div>
-                            <div class="content">
-                                <div class="summary">
-                                    <a class="user" href="/user/{{user.username}}">
-                                        {{this.user.displayname}}
-                                    </a>
-                                    <div class="date" title="{{this.date}}">
-                                        {{formatRelative this.date}}
-                                    </div>
-                                </div>
-                                <div class="extra text">
-                                    {{this.text}}
-                                </div>
-                                {{#if @root.isHome}}
-                                    <div class="meta">
-                                        <a href="/tweet/remove/{{this.id}}">Remove</a>
-                                    </div>
-                                {{/if}}
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            {{else}}
-                <article class="ui segment">
-                    <span class="content">No Tweets to display!</span>
-                </article>
-            {{/each}}
+            {{> tweets}}
         </div>
     </div>
 </section>

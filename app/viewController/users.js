@@ -160,3 +160,32 @@ exports.timeline = {
         });
   },
 };
+
+exports.globalTimeline = {
+  auth: { strategy: 'standard', mode: 'try' },
+  plugins: {
+    'hapi-auth-cookie': {
+      redirectTo: false,
+    },
+  },
+  handler: function (request, reply) {
+
+    TweetController.getAllTweets()
+        .then(tweets => {
+          let isLoggedIn = false;
+          let loggedInUser;
+
+          if (request.auth.credentials !== null) {
+            isLoggedIn = request.auth.credentials.loggedIn;
+            loggedInUser = request.auth.credentials.loggedInUser;
+          }
+
+          reply.view('global',
+              { title: 'Tweetr - Global timeline',
+                isLoggedIn: isLoggedIn,
+                loggedInUser: loggedInUser,
+                tweets: tweets,
+              });
+        });
+  },
+};
