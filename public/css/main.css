@@ -1,0 +1,26 @@
+.background {
+    background-image: url('https://images.unsplash.com/photo-1487235829740-e0ac5a286e1c');
+    background-size: cover;
+}
+
+.flex-center {
+
+}
+
+.image.container {
+    position: relative;
+    width: 100%;
+}
+.image.container:before{
+    content: "";
+    display: block;
+    padding-top: 100%; 	/* initial ratio of 1:1*/
+}
+
+.image.content {
+    position:  absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
