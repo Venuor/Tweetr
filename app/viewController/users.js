@@ -7,7 +7,7 @@ const Joi = require('Joi');
 exports.index = {
   auth: false,
   handler: function (request, reply) {
-    reply.view('index', { title: 'Tweetr', centered: true });
+    reply.view('index', { title: 'Tweetr', centered: true, index: true });
   },
 };
 
