@@ -102,7 +102,9 @@ exports.showUser = {
           return UserController.checkForLoggedInUser(request, user);
         }).then(result => {
           reply.view('user',
-          { title: 'Tweetr - ' + username,
+          { title: 'Tweetr - ' + user.displayname,
+            subtitle: user.displayname + '\'s Tweets',
+            icon: 'comment',
             isLoggedIn: result.isLoggedIn,
             loggedInUser: result.loggedInUser,
             followable: result.isFollowable,
@@ -151,6 +153,8 @@ exports.timeline = {
         }).then(tweets => {
           reply.view('user',
           { title: 'Tweetr - ' + user.username + '\'s timeline',
+            subtitle:  user.username + '\'s timeline',
+            icon: 'comments',
             isLoggedIn: true,
             loggedInUser: user.username,
             user: user,
@@ -182,6 +186,8 @@ exports.globalTimeline = {
 
           reply.view('global',
               { title: 'Tweetr - Global timeline',
+                subtitle: 'Global Timeline',
+                icon: 'comments',
                 isLoggedIn: isLoggedIn,
                 loggedInUser: loggedInUser,
                 tweets: tweets,
