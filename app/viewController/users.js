@@ -91,30 +91,51 @@ exports.showUser = {
   handler: function (request, reply) {
     const username = request.params.username;
     let user;
-    let isHome = false;
-    let isLoggedIn = false;
-    let loggedInUser = null;
+    let tweets;
 
     UserController.getUser(username)
         .then(foundUser => {
           user = foundUser;
           return TweetController.readTweetsForUser(foundUser);
-        }).then(tweets => {
-          if (request.auth.credentials !== null) {
-            isLoggedIn = request.auth.credentials.loggedIn;
-            isHome = user.username === request.auth.credentials.loggedInUser;
-            loggedInUser = request.auth.credentials.loggedInUser;
-          }
-
+        }).then(foundTweets => {
+          tweets = foundTweets;
+          return UserController.checkForLoggedInUser(request, user);
+        }).then(result => {
           reply.view('user',
           { title: 'Tweetr - ' + username,
-            isLoggedIn: isLoggedIn,
-            loggedInUser: loggedInUser,
+            isLoggedIn: result.isLoggedIn,
+            loggedInUser: result.loggedInUser,
+            followable: result.isFollowable,
+            isFollowing: result.isFollowing,
             user: user,
             subs: user.subscribers + '',
-            isHome: isHome,
+            isHome: result.isHome,
             tweets: tweets,
           });
+        }).catch(err => {
+          console.log(err);
         });
+  },
+};
+
+exports.subscribe = {
+  handler: function (request, reply) {
+    const subscribeTo = request.params.username;
+    const username = request.auth.credentials.loggedInUser;
+
+    UserController.subscribe(subscribeTo, username).then(result => {
+      reply.redirect('/user/' + subscribeTo);
+    });
+  },
+};
+
+exports.unsubscribe = {
+  handler: function (request, reply) {
+    const unsubscribeFrom = request.params.username;
+    const username = request.auth.credentials.loggedInUser;
+
+    UserController.unsubscribe(unsubscribeFrom, username).then(result => {
+      reply.redirect('/user/' + unsubscribeFrom);
+    });
   },
 };

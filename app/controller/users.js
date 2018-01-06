@@ -110,3 +110,49 @@ function imageChange(username, displayname, email, description, imageId) {
     return false;
   });
 }
+
+exports.subscribe = function (to, subscriber) {
+  return User.findOneAndUpdate({ username: to }, { $inc: { subscribers: 1 } }).then(to => {
+    return User.update({ username: subscriber }, { $push: { subscriptions: to.id } });
+  }).then(done => {
+    return true;
+  }).catch(err => {
+    throw err;
+  });
+};
+
+exports.checkForLoggedInUser = function (request, pageOwner) {
+  return new Promise(function (resolve, reject) {
+    const result = {};
+
+    if (request.auth.credentials !== null) {
+      result.isLoggedIn = request.auth.credentials.loggedIn;
+      result.isHome = pageOwner.username === request.auth.credentials.loggedInUser;
+      result.loggedInUser = request.auth.credentials.loggedInUser;
+      result.isFollowable = !result.isHome && result.isLoggedIn;
+
+      User.findOne({ username: request.auth.credentials.loggedInUser, subscriptions: pageOwner.id })
+          .then(user => {
+            if (user) {
+              result.isFollowing = true;
+            } else {
+              result.isFollowing = false;
+            }
+
+            resolve(result);
+          });
+    } else {
+      resolve(result);
+    }
+  });
+};
+
+exports.unsubscribe = function (from, subscriber) {
+  return User.findOneAndUpdate({ username: from }, { $inc: { subscribers: -1 } }).then(from => {
+    return User.update({ username: subscriber }, { $pull: { subscriptions: from.id } });
+  }).then(done => {
+    return true;
+  }).catch(err => {
+    throw err;
+  });
+};

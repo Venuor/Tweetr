@@ -20,6 +20,8 @@ module.exports = [
   { method: 'GET',  path: '/home',            config: Users.home },
   { method: 'GET',  path: '/user/{username}', config: Users.showUser },
   { method: 'POST', path: '/user/{username}', config: Tweets.tweet },
+  { method: 'POST', path: '/user/{username}/subscribe', config: Users.subscribe },
+  { method: 'POST', path: '/user/{username}/unsubscribe', config: Users.unsubscribe },
 
   { method: 'GET',  path: '/tweet/remove/{id}', config: Tweets.removeTweet },
   { method: 'POST', path: '/tweet/removeAll',   config: Tweets.removeAllTweets },

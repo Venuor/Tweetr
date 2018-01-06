@@ -19,8 +19,30 @@
     </div>
     {{#if subs}}
         <div class="extra content">
-            <i class="user icon"></i>
-            {{subs}} Subscribers
+            {{#if followable}}
+                {{#if isFollowing}}
+                    <form action="/user/{{user.username}}/unsubscribe" method="post">
+                        <div class="ui labeled button">
+                            <button class="ui basic orange button">
+                                <i class="hide icon"></i> Unsubscribe
+                            </button>
+                            <a class="ui basic orange left pointing label">{{subs}}</a>
+                        </div>
+                    </form>
+                {{else}}
+                    <form action="/user/{{user.username}}/subscribe" method="post">
+                        <div class="ui labeled button">
+                            <button class="ui orange button">
+                                <i class="unhide icon"></i> Subscribe
+                            </button>
+                            <a class="ui basic orange left pointing label">{{subs}}</a>
+                        </div>
+                    </form>
+                {{/if}}
+            {{else}}
+                <i class="user icon"></i>
+                {{subs}} Followers
+            {{/if}}
         </div>
     {{/if}}
 </div>
