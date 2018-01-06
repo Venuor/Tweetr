@@ -1,0 +1,63 @@
+{{> menu username=user.username}}
+<section class="ui grid">
+    <div class="ui four wide column">
+        {{> usercard}}
+
+        <div class="ui top attached red message">
+            <div class="header">Danger Zone</div>
+        </div>
+        <div class="ui bottom attached segment">
+            <form method="post" action="/tweet/removeAll">
+                <input type="submit" class="ui negative button" value="Delete all Tweets" />
+            </form>
+        </div>
+    </div>
+    <main class="ui twelve wide column">
+        <div class="ui segments">
+            <div class="ui segment" style="display: inline-block">
+                <h2><i class="circular settings icon"></i> Settings</h2>
+            </div>
+            <div class="ui segment">
+                <form class="ui form" method="post" enctype="multipart/form-data">
+                    <div class="ui field">
+                        <label>Display name</label>
+                        <input class="ui input" type="text" name="displayname" value="{{user.displayname}}" />
+                    </div>
+                    <div class="ui field">
+                        <label>E-Mail</label>
+                        <input class="ui input" type="text" name="email" value="{{user.email}}" />
+                    </div>
+                    <div class="ui field">
+                        <label>Description</label>
+                        <textarea class="ui textarea" name="description" placeholder="Description..." maxlength="140" rows="3">{{user.description}}</textarea>
+                    </div>
+                    <div class="ui field">
+                        <label>Profile picture</label>
+                        <div class="ui six wide column">
+                            <label for="image-input" class="ui orange button">Choose File</label>
+                            <input type="file" name="image" id="image-input" style="display: none" onchange="fileChanged(this)" />
+                            <span id="file-display"></span>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <div class="ui checkbox">
+                            <input id="default-image" name="default_image" type="checkbox" />
+                            <label for="default-image">Reset to default image</label>
+                        </div>
+                    </div>
+                    <div class="ui buttons">
+                        <input type="submit" value="Save Changes" class="ui primary button" />
+                        <input type="reset" value="Cancel" class="ui negative button" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</section>
+<script>
+    function fileChanged (source) {
+      $('#file-display').text(source.files[0].name);
+    }
+
+    $('.ui.checkbox').checkbox();
+</script>
