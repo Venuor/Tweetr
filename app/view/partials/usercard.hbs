@@ -1,11 +1,11 @@
 <div class="ui card">
-    <div class="image container">
+    <div class="image container"
         {{#if user.image}}
-            <img class="image content" src="/img/{{user.image}}" />
-        {{else}}
+         style="background: url('/img/{{user.image}}'); background-size: cover;"
+        {{/if}}>
+        {{#unless user.image}}
             <img class="image content" src="/images/placeholder.png" />
-        {{/if}}
-
+        {{/unless}}
     </div>
     <div class="content">
         <span class="header">{{user.displayname}}</span>

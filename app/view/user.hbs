@@ -25,7 +25,12 @@
                     <div class="ui feed">
                         <div class="event">
                             <div class="label">
-                                <img src="/img/{{this.user.image}}" />
+                                {{#if this.user.image}}
+                                    <div class="image container"
+                                         style="background: url('/img/{{this.user.image}}'); background-size: cover; border-radius: 500rem;"></div>
+                                {{else}}
+                                    <img src="/images/placeholder.png" />
+                                {{/if}}
                             </div>
                             <div class="content">
                                 <div class="summary">
