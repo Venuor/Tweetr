@@ -1,13 +1,12 @@
 <nav class="ui bottom attached menu">
     <div class="left menu">
         <a class="header item" href="/">Tweetr</a>
-        {{#if isLoggedIn}}
-            <a class="item" href="/home">Home</a>
-        {{/if}}
     </div>
 
     <div class="right menu">
         {{#if isLoggedIn}}
+            <a class="item" href="/home">Home</a>
+            <a class="item" href="/timeline">Timeline</a>
             <div class="ui dropdown item">
                 {{username}}
                 <i class="dropdown icon"></i>

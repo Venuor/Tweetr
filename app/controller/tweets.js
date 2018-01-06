@@ -50,3 +50,14 @@ exports.removeAll = function (username) {
         throw err;
       });
 };
+
+exports.getSubscribedTweets = function (user) {
+  return Tweet.find({ user: { $in: user.subscriptions } })
+      .sort({ 'date': 'desc' })
+      .populate('user')
+      .then(tweets => {
+        return tweets;
+      }).catch(err => {
+        throw err;
+      });
+};

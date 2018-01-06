@@ -23,6 +23,8 @@ module.exports = [
   { method: 'POST', path: '/user/{username}/subscribe', config: Users.subscribe },
   { method: 'POST', path: '/user/{username}/unsubscribe', config: Users.unsubscribe },
 
+  { method: 'GET', path: '/timeline', config: Users.timeline },
+
   { method: 'GET',  path: '/tweet/remove/{id}', config: Tweets.removeTweet },
   { method: 'POST', path: '/tweet/removeAll',   config: Tweets.removeAllTweets },
 

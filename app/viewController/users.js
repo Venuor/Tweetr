@@ -139,3 +139,24 @@ exports.unsubscribe = {
     });
   },
 };
+
+exports.timeline = {
+  handler: function (request, reply) {
+    let user;
+
+    UserController.getUser(request.auth.credentials.loggedInUser)
+        .then(foundUser => {
+          user = foundUser;
+          return TweetController.getSubscribedTweets(user);
+        }).then(tweets => {
+          reply.view('user',
+          { title: 'Tweetr - ' + user.username + '\'s timeline',
+            isLoggedIn: true,
+            loggedInUser: user.username,
+            user: user,
+            subs: user.subscribers + '',
+            tweets: tweets,
+          });
+        });
+  },
+};
