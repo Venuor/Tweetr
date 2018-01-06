@@ -1,0 +1,58 @@
+{{> menu username=loggedInUser}}
+
+<section class="ui grid">
+    <div class="ui four wide column">
+        {{> usercard}}
+    </div>
+    <div class="ui twelve wide column">
+        <div class="ui segments">
+            {{#if isHome}}
+                <article class="ui segment">
+                    <form class="ui form" method="post">
+                        <textarea rows="3" placeholder="Tweet..." maxlength="140" name="text"></textarea>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button class="ui orange right labeled icon button">
+                                Submit
+                                <i class="send outline icon"></i>
+                            </button>
+                        </div>
+                    </form>
+                </article>
+            {{/if}}
+
+            {{#each tweets}}
+                <article class="ui segment">
+                    <div class="ui feed">
+                        <div class="event">
+                            <div class="label">
+                                <img src="/img/{{this.user.image}}" />
+                            </div>
+                            <div class="content">
+                                <div class="summary">
+                                    <a class="user" href="/user/{{user.username}}">
+                                        {{this.user.displayname}}
+                                    </a>
+                                    <div class="date" title="{{this.date}}">
+                                        {{formatRelative this.date}}
+                                    </div>
+                                </div>
+                                <div class="extra text">
+                                    {{this.text}}
+                                </div>
+                                {{#if @root.isHome}}
+                                    <div class="meta">
+                                        <a href="/tweet/remove/{{this.id}}">Remove</a>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {{else}}
+                <article class="ui segment">
+                    <span class="content">No Tweets to display!</span>
+                </article>
+            {{/each}}
+        </div>
+    </div>
+</section>
