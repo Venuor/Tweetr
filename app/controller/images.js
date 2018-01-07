@@ -21,7 +21,11 @@ exports.saveImage = function (path, type) {
 };
 
 exports.removeImage = function (id) {
-  return Image.remove({ _id: id })
+  return this.removeImages(id);
+};
+
+exports.removeImages = function (ids) {
+  return Image.remove({ _id: { $in: ids } })
       .then(deleted => {
         return true;
       }).catch(err => {

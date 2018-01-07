@@ -70,15 +70,27 @@ exports.remove = function (request) {
 };
 
 exports.removeAll = function (username) {
+  let user;
   return UserController.getUser(username)
-      .then(user => {
-        return Tweet.remove({ user: user.id });
-      }).then(deleted => {
-        return true;
+      .then(foundUser => {
+        user = foundUser;
+        return Tweet.find({ user: user.id });
+      }).then(tweets => {
+        removeTweets(user.id);
+        return ImageController.removeImages(tweets.map(a => a.image));
       }).catch(err => {
         throw err;
       });
 };
+
+function removeTweets(userId) {
+  return Tweet.remove({ user: userId })
+      .then(deleted => {
+        return true;
+      }).catch(err => {
+        throw err;
+      });
+}
 
 exports.getSubscribedTweets = function (user) {
   return Tweet.find({ user: { $in: user.subscriptions } })
