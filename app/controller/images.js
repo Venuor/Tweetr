@@ -12,7 +12,6 @@ exports.findImageById = function (id) {
 };
 
 exports.saveImage = function (path, type) {
-  console.log(path);
   const image = new Image();
   image.data = fs.readFileSync(path);
   image.type = type;
