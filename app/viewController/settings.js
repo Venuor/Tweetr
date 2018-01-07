@@ -22,6 +22,7 @@ exports.changeSettings = {
       email: Joi.string().email().trim(),
       description: Joi.string().allow('').max(140).trim(),
       image: Joi.any(),
+      default_image: Joi.any(),
     },
   },
   payload: {
@@ -31,8 +32,13 @@ exports.changeSettings = {
     maxBytes: 524288,
   },
   handler: function (request, reply) {
-    UserController.changeUser(request.auth.credentials.loggedInUser, request.payload);
-    reply.redirect('/settings');
+    UserController.changeUser(request.auth.credentials.loggedInUser, request.payload)
+        .then(result => {
+          reply.redirect('/settings');
+        }).catch(err => {
+          reply.redirect('/settings');
+          throw err;
+        });
   },
 };
 

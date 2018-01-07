@@ -59,25 +59,25 @@ exports.changeUser = function (username, payload) {
   if (!setDefaultImage) {
     // check if new image should be set
     if (image !== undefined && image !== null && image.bytes > 0) {
-      this.getUser(username).then(foundUser => {
+      return this.getUser(username).then(foundUser => {
         return ImagesController.removeImage(foundUser.image);
       }).then(deleted => {
         return ImagesController.saveImage(image.path, image.headers['content-type']);
       }).then(image => {
-        imageChange(username, displayname, email, description, image.id);
+        return imageChange(username, displayname, email, description, image.id);
       }).catch(err => {
         throw err;
       });
     } else {
-      simpleChange(username, displayname, email, description);
+      return simpleChange(username, displayname, email, description);
     }
   } else {
-    this.getUser(username).then(foundUser => {
+    return this.getUser(username).then(foundUser => {
       if (foundUser.image) {
         ImagesController.removeImage(foundUser.image);
       }
 
-      imageChange(username, displayname, email, description, null);
+      return imageChange(username, displayname, email, description, null);
     });
   }
 };
