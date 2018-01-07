@@ -8,7 +8,14 @@ exports.tweet = {
   validate: {
     payload: {
       text: Joi.string().max(140),
+      image: Joi.any(),
     },
+  },
+  payload: {
+    output: 'file',
+    parse: true,
+    allow: 'multipart/form-data',
+    maxBytes: 524288,
   },
   handler: function (request, reply) {
     TweetController.write(request)

@@ -8,15 +8,25 @@
         <div class="ui segments">
             {{> subtitle }}
             {{#if isHome}}
-                <article class="ui segment">
-                    <form class="ui form" method="post">
+                <article class="ui clearing segment">
+                    <form class="ui form" method="post" enctype="multipart/form-data">
                         <textarea rows="3" placeholder="Tweet..." maxlength="140" name="text"></textarea>
-                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
-                            <button class="ui orange right labeled icon button">
-                                Submit
-                                <i class="send outline icon"></i>
-                            </button>
-                        </div>
+
+                        <div style="margin-top: 10px;"></div>
+
+                        <label for="image-input">
+                            <span class="ui right labeled left floated icon button">
+                                Choose File
+                                <i class="file icon"></i>
+                            </span>
+                        </label>
+                        <input type="file" name="image" id="image-input" style="display: none" onchange="fileChanged(this)" />
+                        <span id="file-display"></span>
+
+                        <button class="ui orange right labeled right floated icon button">
+                            Submit
+                            <i class="send outline icon"></i>
+                        </button>
                     </form>
                 </article>
             {{/if}}
@@ -25,3 +35,9 @@
         </div>
     </div>
 </section>
+
+<script>
+    function fileChanged (source) {
+        $('#file-display').text(source.files[0].name);
+    }
+</script>

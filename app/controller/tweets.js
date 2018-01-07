@@ -1,22 +1,45 @@
 'use strict';
 
 const UserController = require('./users');
+const ImageController = require('./images');
 const Tweet = require('../model/tweet');
 
 exports.write = function (request) {
-  let data = request.payload;
+  const text = request.payload.text;
+  const image = request.payload.image;
+
   return UserController.getUser(request.auth.credentials.loggedInUser)
       .then(user => {
-        data.user = user.id;
-
-        const tweet = new Tweet(data);
-        return tweet.save();
+        if (image !== undefined && image !== null && image.bytes > 0) {
+          return saveImageThenTweet(user.id, text, image);
+        } else {
+          return saveTweet(user.id, text);
+        }
       }).then(newTweet => {
         return true;
       }).catch(err => {
         throw err;
       });
 };
+
+function saveTweet(userId, text, imageId = null) {
+  const data = {};
+  data.user = userId;
+  data.text = text;
+  data.image = imageId;
+
+  const tweet = new Tweet(data);
+  return tweet.save();
+}
+
+function saveImageThenTweet(userId, text, image) {
+  return ImageController.saveImage(image.path, image.headers['content-type'])
+      .then(image => {
+        return saveTweet(userId, text, image.id);
+      }).catch(err => {
+        throw err;
+      });
+}
 
 exports.readTweetsForUser = function (user) {
   return Tweet.find({ user: { $in: user.id } })

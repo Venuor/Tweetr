@@ -22,6 +22,10 @@
                     <div class="extra text">
                         {{this.text}}
                     </div>
+                    {{#if this.image}}
+                        <div style="margin-top: 10px;"></div>
+                        <img class="ui fluid image" src="/img/{{this.image}}" />
+                    {{/if}}
                     {{#if @root.isHome}}
                         <div class="meta">
                             <a href="/tweet/remove/{{this.id}}">Remove</a>
