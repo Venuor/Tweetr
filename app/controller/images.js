@@ -21,7 +21,7 @@ exports.saveImage = function (path, type) {
 };
 
 exports.removeImage = function (id) {
-  return Image.remove({ id: id })
+  return Image.remove({ _id: id })
       .then(deleted => {
         return true;
       }).catch(err => {

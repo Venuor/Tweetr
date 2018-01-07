@@ -55,8 +55,14 @@ exports.readTweetsForUser = function (user) {
 exports.remove = function (request) {
   return UserController.getUser(request.auth.credentials.loggedInUser)
       .then(user => {
-        return Tweet.remove({ user: user.id, _id: request.params.id });
+        return Tweet.findOneAndRemove({ user: user.id, _id: request.params.id });
       }).then(deleted => {
+        if (deleted.image) {
+          return ImageController.removeImage(deleted.image);
+        } else {
+          return new Promise.resolve(null);
+        }
+      }).then(promise => {
         return true;
       }).catch(err => {
         throw err;
