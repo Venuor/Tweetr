@@ -18,3 +18,15 @@ exports.findTweets = {
         });
   },
 };
+
+exports.allTweets = {
+  auth: false,
+  handler: function (request, reply) {
+    TweetController.getAllTweets()
+        .then(tweets => {
+          reply(ObjectUtil.getTweetsArray(tweets)).code(200);
+        }).catch(err => {
+          reply(Boom.badImplementation('error accessing db'));
+        });
+  },
+};

@@ -7,5 +7,6 @@ module.exports = [
 
   { method: 'GET', path: '/api/user/{username}', config: Users.findUser },
 
+  { method: 'GET', path: '/api/tweets',            config: Tweets.allTweets },
   { method: 'GET', path: '/api/tweets/{username}', config: Tweets.findTweets },
 ];
