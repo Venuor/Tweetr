@@ -11,7 +11,7 @@ exports.findUser = {
         .then(user => {
           reply(ObjectUtil.getSafeUserObject(user)).code(200);
         }).catch(err => {
-          reply(Boom.badImplementation('error accessing db'));
+          reply(Boom.badRequest('User not found'));
         });
   },
 };

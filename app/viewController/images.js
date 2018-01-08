@@ -8,7 +8,7 @@ exports.image = {
     ImageController.findImageById(request.params.id).then(image => {
       reply(image.data).header('Content-type', image.type);
     }).catch(err => {
-      throw err;
+      reply(Boom.badRequest('Image id invalid'));
     });
   },
 };

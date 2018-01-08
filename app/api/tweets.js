@@ -14,7 +14,7 @@ exports.findTweets = {
         }).then(tweets => {
           reply(ObjectUtil.getTweetsArray(tweets)).code(200);
         }).catch(err => {
-          reply(Boom.badImplementation('error accessing db'));
+          reply(Boom.badRequest('User not found'));
         });
   },
 };
