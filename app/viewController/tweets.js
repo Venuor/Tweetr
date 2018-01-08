@@ -18,7 +18,7 @@ exports.tweet = {
     maxBytes: 524288,
   },
   handler: function (request, reply) {
-    TweetController.write(request)
+    TweetController.write(request, request.auth.credentials.loggedInUser)
         .then(result => {
           reply.redirect('/home');
         }).catch(err => {

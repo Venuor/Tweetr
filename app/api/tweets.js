@@ -46,3 +46,17 @@ exports.timeline = {
         });
   },
 };
+
+exports.tweet = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    return TweetController.write(request, info.username)
+        .then(tweet => {
+          reply(tweet).code(201);
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};

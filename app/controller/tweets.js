@@ -4,11 +4,11 @@ const UserController = require('./users');
 const ImageController = require('./images');
 const Tweet = require('../model/tweet');
 
-exports.write = function (request) {
+exports.write = function (request, username) {
   const text = request.payload.text;
   const image = request.payload.image;
 
-  return UserController.getUser(request.auth.credentials.loggedInUser)
+  return UserController.getUser(username)
       .then(user => {
         if (image !== undefined && image !== null && image.bytes > 0) {
           return saveImageThenTweet(user.id, text, image);
@@ -16,7 +16,7 @@ exports.write = function (request) {
           return saveTweet(user.id, text);
         }
       }).then(newTweet => {
-        return true;
+        return newTweet;
       }).catch(err => {
         throw err;
       });
