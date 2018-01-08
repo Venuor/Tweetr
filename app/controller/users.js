@@ -17,7 +17,7 @@ exports.signup = function (requestPayload) {
 exports.login = function (username, password) {
   return User.findOne({ username: username, password: password })
       .then(foundUser => {
-        return foundUser !== null;
+        return foundUser;
       }).catch(err => {
         throw err;
       });

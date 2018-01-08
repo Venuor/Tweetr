@@ -7,7 +7,12 @@ server.connection({ port: process.env.PORT || 4000 });
 
 require('./app/model/db');
 
-server.register([require('inert'), require('vision'), require('hapi-auth-cookie')], err => {
+server.register([
+    require('inert'),
+    require('vision'),
+    require('hapi-auth-cookie'),
+    require('hapi-auth-jwt2'),
+    ], err => {
   if (err) {
     throw err;
   }
@@ -34,6 +39,12 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     isSecure: false,
     redirectTo: '/login',
     ttl: 24 * 60 * 60 * 1000,
+  });
+
+  server.auth.strategy('jwt', 'jwt', {
+    key: 'secretpasswordnotrevealedtoanyone',
+    validateFunc: require('./app/util/jwtutil').validate,
+    verifyOptions: { algorithms: ['HS256'] },
   });
 
   server.auth.default({
