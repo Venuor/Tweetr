@@ -22,25 +22,6 @@ exports.write = function (request) {
       });
 };
 
-function saveTweet(userId, text, imageId = null) {
-  const data = {};
-  data.user = userId;
-  data.text = text;
-  data.image = imageId;
-
-  const tweet = new Tweet(data);
-  return tweet.save();
-}
-
-function saveImageThenTweet(userId, text, image) {
-  return ImageController.saveImage(image.path, image.headers['content-type'])
-      .then(image => {
-        return saveTweet(userId, text, image.id);
-      }).catch(err => {
-        throw err;
-      });
-}
-
 exports.readTweetsForUser = function (user) {
   return Tweet.find({ user: { $in: user.id } })
       .sort({ 'date': 'desc' })
@@ -83,15 +64,6 @@ exports.removeAll = function (username) {
       });
 };
 
-function removeTweets(userId) {
-  return Tweet.remove({ user: userId })
-      .then(deleted => {
-        return true;
-      }).catch(err => {
-        throw err;
-      });
-}
-
 exports.getSubscribedTweets = function (user) {
   return Tweet.find({ user: { $in: user.subscriptions } })
       .sort({ 'date': 'desc' })
@@ -113,3 +85,35 @@ exports.getAllTweets = function () {
         throw err;
       });
 };
+
+// **************************** //
+//   private helper functions   //
+// **************************** //
+
+function saveTweet(userId, text, imageId = null) {
+  const data = {};
+  data.user = userId;
+  data.text = text;
+  data.image = imageId;
+
+  const tweet = new Tweet(data);
+  return tweet.save();
+}
+
+function saveImageThenTweet(userId, text, image) {
+  return ImageController.saveImage(image.path, image.headers['content-type'])
+      .then(image => {
+        return saveTweet(userId, text, image.id);
+      }).catch(err => {
+        throw err;
+      });
+}
+
+function removeTweets(userId) {
+  return Tweet.remove({ user: userId })
+      .then(deleted => {
+        return true;
+      }).catch(err => {
+        throw err;
+      });
+}

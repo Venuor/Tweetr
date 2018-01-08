@@ -54,10 +54,6 @@ exports.changePassword = function (username, payload) {
       });
 };
 
-function checkPassword(payload) {
-  return payload.password === payload.passwordConfirm;
-}
-
 exports.changeUser = function (username, payload) {
   const displayname = payload.displayname;
   const email = payload.email;
@@ -91,35 +87,6 @@ exports.changeUser = function (username, payload) {
     });
   }
 };
-
-function simpleChange(username, displayname, email, description) {
-  return User.update({ username: username },
-      { $set: {
-        displayname: displayname,
-        email: email,
-        description: description,
-      },
-  }).then(result => {
-    return true;
-  }).catch(err => {
-    return false;
-  });
-}
-
-function imageChange(username, displayname, email, description, imageId) {
-  return User.update({ username: username },
-      { $set: {
-        displayname: displayname,
-        email: email,
-        description: description,
-        image: imageId,
-      },
-  }).then(result => {
-    return true;
-  }).catch(err => {
-    return false;
-  });
-}
 
 exports.subscribe = function (to, subscriber) {
   return User.findOneAndUpdate({ username: to }, { $inc: { subscribers: 1 } }).then(to => {
@@ -166,3 +133,40 @@ exports.unsubscribe = function (from, subscriber) {
     throw err;
   });
 };
+
+// **************************** //
+//   private helper functions   //
+// **************************** //
+
+function checkPassword(payload) {
+  return payload.password === payload.passwordConfirm;
+}
+
+function simpleChange(username, displayname, email, description) {
+  return User.update({ username: username },
+      { $set: {
+        displayname: displayname,
+        email: email,
+        description: description,
+      },
+  }).then(result => {
+    return true;
+  }).catch(err => {
+    return false;
+  });
+}
+
+function imageChange(username, displayname, email, description, imageId) {
+  return User.update({ username: username },
+      { $set: {
+        displayname: displayname,
+        email: email,
+        description: description,
+        image: imageId,
+      },
+  }).then(result => {
+    return true;
+  }).catch(err => {
+    return false;
+  });
+}
