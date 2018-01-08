@@ -32,6 +32,7 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     password: 'secretpasswordnotrevealedtoanyone',
     cookie: 'tweetr-cookie',
     isSecure: false,
+    redirectTo: '/login',
     ttl: 24 * 60 * 60 * 1000,
   });
 
