@@ -32,6 +32,16 @@ exports.getUser = function (username) {
       });
 };
 
+exports.getUserWithSubscriberNames = function (username) {
+  return User.findOne({ username: username })
+      .populate('subscriptions', 'username')
+      .then(foundUser => {
+        return foundUser;
+      }).catch(err => {
+        throw err;
+      });
+};
+
 exports.changePassword = function (username, payload) {
   if (!checkPassword(payload))
     throw new Error('Passwords must match!');
