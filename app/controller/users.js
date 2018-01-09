@@ -10,7 +10,7 @@ exports.signup = function (requestPayload) {
   const user = new User(requestPayload);
 
   return user.save()
-      .then(newUser => true)
+      .then(newUser => newUser)
       .catch(err => { throw err; });
 };
 
