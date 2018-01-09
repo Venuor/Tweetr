@@ -89,49 +89,33 @@ exports.changeUser = function (username, payload) {
 };
 
 exports.subscribe = function (to, subscriber) {
-  return User.findOneAndUpdate({ username: to }, { $inc: { subscribers: 1 } }).then(to => {
-    return User.update({ username: subscriber }, { $push: { subscriptions: to.id } });
-  }).then(done => {
-    return true;
-  }).catch(err => {
-    throw err;
-  });
-};
-
-exports.checkForLoggedInUser = function (request, pageOwner) {
-  return new Promise(function (resolve, reject) {
-    const result = {};
-
-    if (request.auth.credentials !== null) {
-      result.isLoggedIn = request.auth.credentials.loggedIn;
-      result.isHome = pageOwner.username === request.auth.credentials.loggedInUser;
-      result.loggedInUser = request.auth.credentials.loggedInUser;
-      result.isFollowable = !result.isHome && result.isLoggedIn;
-
-      User.findOne({ username: request.auth.credentials.loggedInUser, subscriptions: pageOwner.id })
-          .then(user => {
-            if (user) {
-              result.isFollowing = true;
-            } else {
-              result.isFollowing = false;
-            }
-
-            resolve(result);
-          });
-    } else {
-      resolve(result);
-    }
-  });
+  return User.findOneAndUpdate(
+      { username: to, subscribers: { $ne: subscriber } },
+      { $push: { subscribers: subscriber } })
+      .then(to => {
+        if (to) {
+          return User.update({ username: subscriber }, { $push: { subscriptions: to.id } });
+        } else {
+          return null;
+        }
+      }).catch(err => {
+        throw err;
+      });
 };
 
 exports.unsubscribe = function (from, subscriber) {
-  return User.findOneAndUpdate({ username: from }, { $inc: { subscribers: -1 } }).then(from => {
-    return User.update({ username: subscriber }, { $pull: { subscriptions: from.id } });
-  }).then(done => {
-    return true;
-  }).catch(err => {
-    throw err;
-  });
+  return User.findOneAndUpdate(
+      { username: from, subscribers: subscriber },
+      { $pull: { subscribers: subscriber } })
+      .then(from => {
+        if (from) {
+          return User.update({ username: subscriber }, { $pull: { subscriptions: from.id } });
+        } else {
+          return null;
+        }
+      }).catch(err => {
+        throw err;
+      });
 };
 
 // **************************** //
