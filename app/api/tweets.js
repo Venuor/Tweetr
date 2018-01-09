@@ -60,3 +60,32 @@ exports.tweet = {
         });
   },
 };
+
+exports.remove = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    TweetController.remove(request, info.username)
+      .then(result => {
+        reply().code(204);
+      }).catch(err => {
+        console.log(err);
+        reply(Boom.badImplementation('Internal Error'));
+      });
+  },
+};
+
+exports.removeAll = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    TweetController.removeAll(info.username)
+        .then(result => {
+          reply().code(204);
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};

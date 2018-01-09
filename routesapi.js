@@ -16,9 +16,9 @@ module.exports = [
   { method: 'GET', path: '/api/tweets/{username}', config: Tweets.findTweets },
   { method: 'GET', path: '/api/timeline',          config: Tweets.timeline },
 
-  //{ method: 'POST', path: '/api/tweet/remove/{id}', config: Tweets.remove },
-  //{ method: 'POST', path: '/api/tweet/removeAll',   config: Tweets.removeAll },
+  { method: 'POST', path: '/api/tweet/remove/{id}', config: Tweets.remove },
+  { method: 'POST', path: '/api/tweet/removeall',   config: Tweets.removeAll },
 
-  //{ method: 'POST', path: '/api/settings', config: Users.settings },
-  //{ method: 'POST', path: '/api/password', config: Users.password },
+  { method: 'POST', path: '/api/settings', config: Users.settings },
+  { method: 'POST', path: '/api/password', config: Users.password },
 ];

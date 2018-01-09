@@ -33,18 +33,18 @@ exports.readTweetsForUser = function (user) {
       });
 };
 
-exports.remove = function (request) {
-  return UserController.getUser(request.auth.credentials.loggedInUser)
+exports.remove = function (request, username) {
+  return UserController.getUser(username)
       .then(user => {
         return Tweet.findOneAndRemove({ user: user.id, _id: request.params.id });
       }).then(deleted => {
-        if (deleted.image) {
+        if (deleted === undefined || deleted === null) {
+          return null;
+        } else if (deleted.image) {
           return ImageController.removeImage(deleted.image);
         } else {
-          return new Promise.resolve(null);
+          return true;
         }
-      }).then(promise => {
-        return true;
       }).catch(err => {
         throw err;
       });
