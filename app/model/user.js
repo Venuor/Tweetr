@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   joined:         { type: Date,   required: true, default: Date.now },
   image:          { type: mongoose.Schema.ObjectId, ref: 'Image' },
   description:    { type: String, default: '' },
-  subscribers:    { type: Number, default: 0 },
+  subscribers:    { type: [String], default: [] },
   subscriptions: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
 });
 

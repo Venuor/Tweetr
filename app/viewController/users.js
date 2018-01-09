@@ -91,27 +91,31 @@ exports.showUser = {
   handler: function (request, reply) {
     const username = request.params.username;
     let user;
-    let tweets;
 
     UserController.getUser(username)
         .then(foundUser => {
           user = foundUser;
           return TweetController.readTweetsForUser(foundUser);
-        }).then(foundTweets => {
-          tweets = foundTweets;
-          return UserController.checkForLoggedInUser(request, user);
-        }).then(result => {
+        }).then(tweets => {
+          let requester = null;
+          let isLoggedIn = false;
+
+          if (request.auth.credentials) {
+            requester = request.auth.credentials.loggedInUser;
+            isLoggedIn = true;
+          }
+
           reply.view('user',
           { title: 'Tweetr - ' + user.displayname,
             subtitle: user.displayname + '\'s Tweets',
             icon: 'comment',
-            isLoggedIn: result.isLoggedIn,
-            loggedInUser: result.loggedInUser,
-            followable: result.isFollowable,
-            isFollowing: result.isFollowing,
+            isLoggedIn: isLoggedIn,
+            loggedInUser: requester,
+            followable: username !== requester,
+            isFollowing: user.subscribers.includes(requester),
             user: user,
-            subs: user.subscribers + '',
-            isHome: result.isHome,
+            subs: user.subscribers.length + '',
+            isHome: username === requester,
             tweets: tweets,
           });
         }).catch(err => {

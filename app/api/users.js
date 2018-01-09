@@ -49,3 +49,45 @@ exports.signup = {
         });
   },
 };
+
+exports.subscribe = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    const subscribeTo = request.params.username;
+    const username = info.username;
+
+    UserController.subscribe(subscribeTo, username)
+        .then(result => {
+          if (result) {
+            reply().code(204);
+          } else {
+            reply(Boom.badRequest('User not found or already subscribed account!'));
+          }
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
+
+exports.unsubscribe = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    const unsubscribeFrom = request.params.username;
+    const username = info.username;
+
+    UserController.unsubscribe(unsubscribeFrom, username)
+        .then(result => {
+          if (result) {
+            reply().code(204);
+          } else {
+            reply(Boom.badRequest('User not found or already subscribed account!'));
+          }
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
