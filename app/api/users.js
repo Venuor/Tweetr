@@ -91,3 +91,31 @@ exports.unsubscribe = {
         });
   },
 };
+
+exports.settings = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    UserController.changeUser(info.username, request.payload)
+        .then(result => {
+          reply().code(204);
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
+
+exports.password = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    UserController.changePassword(info.username, request.payload)
+        .then(result => {
+          reply().code(204);
+        }).catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
