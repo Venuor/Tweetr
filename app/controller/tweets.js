@@ -33,10 +33,10 @@ exports.readTweetsForUser = function (user) {
       });
 };
 
-exports.remove = function (request, username) {
+exports.remove = function (tweetId, username) {
   return UserController.getUser(username)
       .then(user => {
-        return Tweet.findOneAndRemove({ user: user.id, _id: request.params.id });
+        return Tweet.findOneAndRemove({ user: user.id, _id: tweetId });
       }).then(deleted => {
         if (deleted === undefined || deleted === null) {
           return null;

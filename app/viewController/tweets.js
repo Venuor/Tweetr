@@ -30,14 +30,13 @@ exports.tweet = {
 exports.removeTweet = {
   auth: { strategy: 'standard' },
   handler: function (request, reply) {
-    try {
-      if (TweetController.remove(request)) {
-        reply.redirect('/home');
-      }
-    } catch (err) {
-      console.log(err);
-      reply.redirect('/home');
-    }
+    TweetController.remove(request.params.id, request.auth.credentials.loggedInUser)
+        .then(result => {
+          reply.redirect('/home');
+        }).catch(err => {
+          console.log(err);
+          reply.redirect('/home');
+        });
   },
 };
 

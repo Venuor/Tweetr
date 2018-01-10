@@ -66,7 +66,7 @@ exports.remove = {
   handler: function (request, reply) {
     const info = JwtUtil.decodeToken(request.headers.authorization);
 
-    TweetController.remove(request, info.username)
+    TweetController.remove(request.payload.tweet, info.username)
       .then(result => {
         reply().code(204);
       }).catch(err => {
