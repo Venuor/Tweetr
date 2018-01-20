@@ -3,7 +3,7 @@
 const Hapi = require('hapi');
 
 const server = new Hapi.Server();
-server.connection({ port: process.env.PORT || 4000 });
+server.connection({ port: process.env.PORT || 4000, routes: { cors: true } });
 
 require('./app/model/db');
 

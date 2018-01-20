@@ -6,8 +6,8 @@ const Tweets = require('./app/api/tweets');
 module.exports = [
 
   { method: 'POST', path: '/api/login',           config: Users.login },
+  { method: 'POST', path: '/api/user',            config: Users.signup },
   { method: 'GET',  path: '/api/user/{username}', config: Users.findUser },
-  { method: 'POST', path: '/api/user/{username}', config: Users.signup },
   { method: 'PUT',  path: '/api/user/{username}', config: Users.settings },
   { method: 'POST', path: '/api/user/{username}/password', config: Users.password },
   { method: 'POST', path: '/api/user/{username}/subscribe', config: Users.subscribe },

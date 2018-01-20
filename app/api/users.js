@@ -42,7 +42,7 @@ exports.signup = {
           reply(ObjectUtil.getSafeUserObject(user)).code(201);
         }).catch(err => {
           if (err.code === 11000) {
-            reply(Boom.badRequest('Username, Display name or Email are already used!'));
+            reply(Boom.badRequest('Username or Email are already used!'));
           } else {
             reply(Boom.badImplementation('Internal Error'));
           }
