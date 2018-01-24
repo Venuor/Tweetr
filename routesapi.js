@@ -2,6 +2,7 @@
 
 const Users = require('./app/api/users');
 const Tweets = require('./app/api/tweets');
+const Statistics = require('./app/api/statistics');
 
 module.exports = [
 
@@ -21,4 +22,6 @@ module.exports = [
   { method: 'GET',    path: '/api/tweets/{username}', config: Tweets.findTweets },
   { method: 'DELETE', path: '/api/tweets/{username}', config: Tweets.removeAll },
   { method: 'GET',    path: '/api/tweets/{username}/timeline', config: Tweets.timeline },
+
+  { method: 'GET', path: '/api/statistics/global', config: Statistics.getGlobal },
 ];
