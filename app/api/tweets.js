@@ -49,6 +49,12 @@ exports.timeline = {
 
 exports.tweet = {
   auth: 'jwt',
+  payload: {
+    output: 'file',
+    parse: true,
+    allow: 'multipart/form-data',
+    maxBytes: 524288,
+  },
   handler: function (request, reply) {
     const info = JwtUtil.decodeToken(request.headers.authorization);
 

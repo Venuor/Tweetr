@@ -11,7 +11,7 @@ exports.createToken = function (user) {
 
   const options = {
     algorithm: 'HS256',
-    expiresIn: '1h',
+    expiresIn: '12h',
   };
 
   return jwt.sign(payload, 'secretpasswordnotrevealedtoanyone', options);

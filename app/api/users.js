@@ -4,11 +4,26 @@ const UserController = require('../controller/users');
 const ObjectUtil = require('../util/objectutil');
 const JwtUtil = require('../util/jwtutil');
 const Boom = require('boom');
+const Joi = require('joi');
 
 exports.findUser = {
   auth: false,
   handler: function (request, reply) {
     UserController.getUserWithSubscriberNames(request.params.username)
+        .then(user => {
+          reply(ObjectUtil.getSafeUserObject(user)).code(200);
+        }).catch(err => {
+          reply(Boom.badRequest('User not found'));
+        });
+  },
+};
+
+exports.findUserForToken = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    UserController.getUserWithSubscriberNames(info.username)
         .then(user => {
           reply(ObjectUtil.getSafeUserObject(user)).code(200);
         }).catch(err => {
@@ -94,6 +109,21 @@ exports.unsubscribe = {
 
 exports.settings = {
   auth: 'jwt',
+  validate: {
+    payload: {
+      displayname: Joi.string().min(4).max(40).trim(),
+      email: Joi.string().email().trim(),
+      description: Joi.string().allow('').max(140).trim(),
+      image: Joi.any(),
+      default_image: Joi.any(),
+    },
+  },
+  payload: {
+    output: 'file',
+    parse: true,
+    allow: 'multipart/form-data',
+    maxBytes: 524288,
+  },
   handler: function (request, reply) {
     const info = JwtUtil.decodeToken(request.headers.authorization);
 
