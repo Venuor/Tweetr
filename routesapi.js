@@ -13,6 +13,7 @@ module.exports = [
   { method: 'POST', path: '/api/user/{username}/password', config: Users.password },
   { method: 'POST', path: '/api/user/{username}/subscribe', config: Users.subscribe },
   { method: 'POST', path: '/api/user/{username}/unsubscribe', config: Users.unsubscribe },
+  { method: 'GET',  path: '/api/users', config: Users.findAll },
 
   { method: 'GET',    path: '/api/tweets', config: Tweets.allTweets },
   { method: 'POST',   path: '/api/tweets', config: Tweets.tweet },

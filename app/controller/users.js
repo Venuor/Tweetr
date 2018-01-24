@@ -42,6 +42,15 @@ exports.getUserWithSubscriberNames = function (username) {
       });
 };
 
+exports.getAll = function () {
+  return User.find({})
+      .populate('subscriptions', 'username')
+      .then(users => users)
+      .catch(err => {
+        throw err;
+      });
+};
+
 exports.changePassword = function (username, payload) {
   if (!checkPassword(payload))
     throw new Error('Passwords must match!');

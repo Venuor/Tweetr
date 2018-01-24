@@ -28,6 +28,16 @@ exports.getSafeUserObject = function (user) {
   return result;
 };
 
+exports.getSafeUserObjects = function (users) {
+  const result = [];
+
+  for (let user of users) {
+    result.push(this.getSafeUserObject(user));
+  }
+
+  return result;
+};
+
 exports.getUserObjectForTweet = function (user) {
   const result = {};
 

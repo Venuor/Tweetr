@@ -149,3 +149,16 @@ exports.password = {
         });
   },
 };
+
+exports.findAll = {
+  auth: false,
+  handler: function (request, reply) {
+    UserController.getAll()
+        .then(users => {
+          reply(ObjectUtil.getSafeUserObjects(users)).code(200);
+        })
+        .catch(err => {
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
