@@ -2,10 +2,10 @@
 
 const Hapi = require('hapi');
 
+require('./app/model/db');
+
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000, routes: { cors: true } });
-
-require('./app/model/db');
 
 server.register([
     require('inert'),

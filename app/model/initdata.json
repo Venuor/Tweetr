@@ -1,0 +1,45 @@
+{
+  "users": {
+    "_model": "User",
+    "admin": {
+      "username": "admin",
+      "displayname": "admin",
+      "email": "admin@example.com",
+      "password": "password",
+      "isAdmin": true,
+      "image": null
+    },
+    "venour": {
+      "username": "venour",
+      "displayname": "Rouven Spieß",
+      "email": "venour@example.com",
+      "password": "password",
+      "image": null
+    },
+    "user": {
+      "username": "user",
+      "displayname": "user",
+      "email": "user@example.com",
+      "password": "password",
+      "image": null
+    }
+  },
+  "tweets": {
+    "_model": "Tweet",
+    "first": {
+      "user": "->users.admin",
+      "text": "Lets make this thing big!",
+      "image": null
+    },
+    "second": {
+      "user": "->users.venour",
+      "text": "Hello World",
+      "image": null
+    },
+    "third": {
+      "user": "->users.user",
+      "text": "This was not supposed to happen",
+      "image": null
+    }
+  }
+}

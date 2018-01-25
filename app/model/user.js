@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Tweet = require('./tweet');
 
 const userSchema = mongoose.Schema({
   username:       { type: String, required: true, unique: true },

@@ -5,6 +5,7 @@ const TweetController = require('../controller/tweets');
 const ObjectUtil = require('../util/objectutil');
 const JwtUtil = require('../util/jwtutil');
 const Boom = require('boom');
+const Joi = require('joi');
 
 exports.findTweets = {
   auth: false,
