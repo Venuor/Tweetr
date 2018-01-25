@@ -7,6 +7,7 @@ exports.createToken = function (user) {
   const payload = {
     id: user._id,
     username: user.username,
+    isAdmin: user.isAdmin || false,
   };
 
   const options = {
@@ -23,6 +24,7 @@ exports.decodeToken = function (token) {
     const decoded = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
     userInfo.userId = decoded.id;
     userInfo.username = decoded.username;
+    userInfo.isAdmin = decoded.isAdmin;
   } catch (e) {
     throw e;
   }

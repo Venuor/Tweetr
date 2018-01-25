@@ -57,8 +57,12 @@ exports.removeAll = function (username) {
         user = foundUser;
         return Tweet.find({ user: user.id });
       }).then(tweets => {
-        removeTweets(user.id);
-        return ImageController.removeImages(tweets.map(a => a.image));
+        const promises = [];
+        removeTweets(user.id)
+            .then(result => promises.push(result));
+        ImageController.removeImages(tweets.map(a => a.image))
+            .then(result => promises.push(result));
+        return Promise.all(promises);
       }).catch(err => {
         throw err;
       });

@@ -162,3 +162,24 @@ exports.findAll = {
         });
   },
 };
+
+exports.removeUsers = {
+  auth: 'jwt',
+  handler: function (request, reply) {
+    const info = JwtUtil.decodeToken(request.headers.authorization);
+
+    if (!info.isAdmin) {
+      reply(Boom.unauthorized('Unauthorized access to protected resource!'));
+      return;
+    }
+
+    const users = request.query.users.split(',');
+
+    UserController.removeUsers(users)
+        .then(result => reply().code(204))
+        .catch(err => {
+          console.log(err);
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};

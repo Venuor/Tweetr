@@ -1,7 +1,8 @@
 'use strict';
 
 const User = require('../model/user');
-const ImagesController = require('../controller/images');
+const TweetController = require('./tweets');
+const ImagesController = require('./images');
 
 exports.signup = function (requestPayload) {
   if (!checkPassword(requestPayload))
@@ -123,6 +124,40 @@ exports.unsubscribe = function (from, subscriber) {
           return null;
         }
       }).catch(err => {
+        throw err;
+      });
+};
+
+exports.removeUsers = function (users) {
+  return User.find({ username: { $in: users } })
+      .then(users => {
+        const promises = [];
+
+        users.forEach(user => {
+          TweetController.removeAll(user.username)
+              .then(tweets => promises.push(tweets))
+              .catch(error => console.log(error));
+          ImagesController.removeImage(user.image)
+              .then(images => promises.push(images))
+              .catch(error => console.log(error));
+          user.subscriptions.forEach(subscription => {
+            this.unsubscribe(subscription, user.username)
+                .then(unsubscribe => promises.push(unsubscribe))
+                .catch(error => console.log(error));
+          });
+          user.subscribers.forEach(subscriber => {
+            this.unsubscribe(user.username, subscriber)
+                .then(unsubscribe => promises.push(unsubscribe))
+                .catch(error => console.log(error));
+          });
+          user.remove()
+              .then(removed => promises.push(removed))
+              .catch(error => console.log(error));
+        });
+
+        return Promise.all(promises);
+      })
+      .catch(err => {
         throw err;
       });
 };
