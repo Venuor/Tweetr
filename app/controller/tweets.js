@@ -68,6 +68,24 @@ exports.removeAll = function (username) {
       });
 };
 
+exports.removeMultiple = function (tweets) {
+  return Tweet.find({ _id: { $in: tweets } })
+      .then(tweets => {
+        const promises = [];
+
+        tweets.forEach(tweet => {
+          ImageController.removeImage(tweet.image)
+              .then(result => promises.push(result));
+          tweet.remove()
+              .then(result => promises.push(result));
+        });
+
+        return Promise.all(promises);
+      }).catch(err => {
+        throw err;
+      });
+};
+
 exports.getSubscribedTweets = function (user) {
   return Tweet.find({ user: { $in: user.subscriptions } })
       .sort({ 'date': 'desc' })
