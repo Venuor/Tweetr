@@ -49,6 +49,12 @@ exports.timeline = {
 
 exports.tweet = {
   auth: 'jwt',
+  validate: {
+    payload: {
+      text: Joi.string().max(140),
+      image: Joi.any(),
+    },
+  },
   payload: {
     output: 'file',
     parse: true,

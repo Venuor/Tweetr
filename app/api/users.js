@@ -51,6 +51,15 @@ exports.login = {
 
 exports.signup = {
   auth: false,
+  validate: {
+    payload: {
+      username: Joi.string().min(4).max(20).alphanum().trim(),
+      displayname: Joi.string().min(4).max(40).required().trim(),
+      password: Joi.string().min(8).max(40).required().trim(),
+      passwordConfirm: Joi.string().trim().valid(Joi.ref('password')),
+      email: Joi.string().email().trim(),
+    },
+  },
   handler: function (request, reply) {
     UserController.signup(request.payload)
         .then(user => {
@@ -138,6 +147,12 @@ exports.settings = {
 
 exports.password = {
   auth: 'jwt',
+  validate: {
+    payload: {
+      password: Joi.string().min(8).max(40).required().trim(),
+      passwordConfirm: Joi.string().trim().valid(Joi.ref('password')),
+    },
+  },
   handler: function (request, reply) {
     const info = JwtUtil.decodeToken(request.headers.authorization);
 
