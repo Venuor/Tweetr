@@ -10,6 +10,7 @@ exports.getSafeUserObject = function (user) {
   result.joined = user.joined;
   result.description = user.description;
   result.subscribers = user.subscribers;
+  result.isAdmin = user.isAdmin || false;
 
   if (user.image && user.image !== null) {
     result.image = '/img/' + user.image;
