@@ -24,4 +24,5 @@ module.exports = [
   { method: 'GET',    path: '/api/tweets/{username}/timeline', config: Tweets.timeline },
 
   { method: 'GET', path: '/api/statistics/global', config: Statistics.getGlobal },
+  { method: 'GET', path: '/api/statistics/users',  config: Statistics.getUsers },
 ];

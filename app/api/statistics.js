@@ -23,15 +23,7 @@ exports.getGlobal = {
 
     TweetController.getAllTweets()
         .then(tweets => {
-          result.tweets = tweets.length;
-          result.imageTweets = 0;
-          result.characters = 0;
-
-          for (let tweet of tweets) {
-            result.imageTweets += tweet.image ? 1 : 0;
-            result.characters += tweet.text.length;
-          }
-
+          Object.assign(result, getMetricsForTweets(tweets));
           result.tweetsDone = true;
 
           completed();
@@ -52,3 +44,45 @@ exports.getGlobal = {
     }
   },
 };
+
+exports.getUsers = {
+  auth: false,
+  handler: function (request, reply) {
+    const result = {};
+    const users = request.query.users.split(',');
+    result.users = users.length;
+
+    if (result.users === 0) {
+      reply(Boom.badRequest('No value to search for submitted!'));
+      return;
+    }
+
+    TweetController.getTweetsForUsers(users)
+        .then(tweets => {
+          Object.assign(result, getMetricsForTweets(tweets));
+
+          reply(result).code(200);
+        }).catch(error => {
+          console.log(error);
+          reply(Boom.badImplementation('Internal Error'));
+        });
+  },
+};
+
+function getMetricsForTweets(tweets) {
+  const result = {};
+  result.tweets = tweets.length;
+  result.imageTweets = 0;
+  result.characters = 0;
+
+  for (let tweet of tweets) {
+    if (tweet.user) {
+      result.imageTweets += tweet.image ? 1 : 0;
+      result.characters += tweet.text.length;
+    } else {
+      result.tweets--;
+    }
+  }
+
+  return result;
+}

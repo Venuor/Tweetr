@@ -86,6 +86,19 @@ exports.getAllTweets = function () {
       });
 };
 
+exports.getTweetsForUsers = function (users) {
+  return Tweet.find({})
+      .sort({ 'date': 'desc' })
+      .populate({
+        path: 'user',
+        match: { username: { $in: users } },
+      })
+      .then(tweets => tweets)
+      .catch(err => {
+        throw err;
+      });
+};
+
 // **************************** //
 //   private helper functions   //
 // **************************** //
