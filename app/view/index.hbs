@@ -1,17 +1,58 @@
-<section class="main container">
-    <div class="ui centered grid">
-        <div class="ui row">
-            <div class="six wide column">
-                <h1 style="text-align: center; color: white;">Tweetr - The Next Big Thing</h1>
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%">
+    <div style="display: flex; justify-content: center; flex-direction: column; height: 60%;">
+        <section class="main container">
+            <div class="ui centered grid">
+                <div class="ui row">
+                    <div class="six wide column">
+                        <h1 style="text-align: center; color: white;">Tweetr - The Next Big Thing</h1>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <div class="two wide column">
+                        <a class="ui orange button" href="/login" style="width: 100%;">Log in</a>
+                    </div>
+                    <div class="two wide column">
+                        <a class="ui orange button" href="/signup" style="width: 100%;">Sign up</a>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="ui row">
-            <div class="two wide column">
-                <a class="ui orange button" href="/login" style="width: 100%;">Log in</a>
-            </div>
-            <div class="two wide column">
-                <a class="ui orange button" href="/signup" style="width: 100%;">Sign up</a>
-            </div>
-        </div>
+        </section>
     </div>
-</section>
+
+    <article class="ui horizontal segments four column grid">
+        <div class="ui column segment">
+            <h3>Purpose</h3>
+            This application is a Twitter copycat application and was created for academic purposes.<br>
+            The code for the single page application can be found in this
+            <a href="" target="_blank"><i class="github icon"></i>repository</a>.<br>
+            The code for the node.js backend including the server-rendered ui can be found
+            <a href="https://github.com/Venuor/Tweetr" target="_blank"><i class="github icon"></i>here</a>.
+        </div>
+
+        <div class="ui column segment">
+            <h3>Technologies</h3>
+            This application was build upon a <a href="https://nodejs.org" target="_blank">node.js</a> backend.<br>
+            The used server framework is <a href="https://hapijs.com" target="_blank">Hapi</a>.<br>
+            The server-rendered ui is build with <a href="http://handlebarsjs.com" target="_blank">handlebars</a>.<br>
+            For styling the css framework <a href="https://semantic-ui.com" target="_blank">Semantic UI</a> was used.<br>
+            This single page application is based on <a href="https://angular.io" target="_blank">Angular</a>.
+            The data is saved into the document database <a href="https://www.mongodb.com" target="_blank">mongodb</a>.
+        </div>
+
+        <div class="ui column segment">
+            <h3>Hosting</h3>
+            The node.js backend together with the server-rendered ui is hosted at
+            <a href="" target="_blank">Heroku</a>.<br>
+            The single page application frontend is hosted on
+            <a href="" target="_blank">GitHub-Pages</a>.<br>
+            The mongodb database is hosted by <a href="https://mlab.com" target="_blank">mlab</a>.
+        </div>
+
+        <div class="ui column segment">
+            <h3>Resources</h3>
+            For writing the code the IDE <a href="http://www.jetbrains.com/idea" target="_blank">IntelliJ IDEA</a> was used.<br>
+            The background image used on some pages was created by <a href="https://unsplash.com/photos/UfCYo7zHyY8" target="_blank">Octavian Rosca</a>.<br>
+            The placeholder image shown for users without a set profile image comes from <a href="https://commons.wikimedia.org/wiki/File:Portrait_Placeholder.png" target="_blank">here</a>.
+        </div>
+    </article>
+</div>

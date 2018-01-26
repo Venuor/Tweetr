@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
 </head>
 <body {{#if index}}class="background"{{/if}}>
-<section class="ui container" {{#if centered}}style="display: flex; justify-content: center; flex-direction: column; height: 60%;"{{/if}}>
+<section class="ui {{#if index}}fluid{{/if}} container" {{#if index}}style="height: 100%;"{{/if}} >
     {{{content}}}
 </section>
 </body>
