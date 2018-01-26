@@ -54,7 +54,7 @@ function fillCollections() {
       user: user.id,
       text: 'Hello World',
     }).save()
-  );
+  ).then(tweet => promises.push(tweet));
 
   new User({
     username: 'user',
@@ -66,7 +66,7 @@ function fillCollections() {
       user: user.id,
       text: 'This was not supposed to happen',
     }).save()
-  );
+  ).then(tweet => promises.push(tweet));
 
   return Promise.all(promises);
 }
