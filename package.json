@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "boom": "^7.1.1",
     "handlebars": "^4.0.11",
     "handlebars-intl": "^1.1.2",

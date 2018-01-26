@@ -3,6 +3,7 @@
 const User = require('../model/user');
 const TweetController = require('./tweets');
 const ImagesController = require('./images');
+const bcrypt = require('bcrypt');
 
 exports.signup = function (requestPayload) {
   if (!checkPassword(requestPayload))
@@ -10,15 +11,27 @@ exports.signup = function (requestPayload) {
 
   const user = new User(requestPayload);
 
-  return user.save()
-      .then(newUser => newUser)
+  return hashPassword(user.password)
+      .then(hash => {
+        user.password = hash;
+        return user.save();
+      }).then(newUser => newUser)
       .catch(err => { throw err; });
 };
 
 exports.login = function (username, password) {
-  return User.findOne({ username: username, password: password })
+  let user = null;
+
+  return User.findOne({ username: username })
       .then(foundUser => {
-        return foundUser;
+        user = foundUser;
+        return bcrypt.compare(password, user.password);
+      }).then(result => {
+        if (result) {
+          return user;
+        } else {
+          return Promise.resolve(null);
+        }
       }).catch(err => {
         throw err;
       });
@@ -56,12 +69,10 @@ exports.changePassword = function (username, payload) {
   if (!checkPassword(payload))
     throw new Error('Passwords must match!');
 
-  return User.update({ username: username }, { $set: { password: payload.password }, })
-      .then(result => {
-        return true;
-      }).catch(err => {
-        return false;
-      });
+  return hashPassword(payload.password)
+      .then(hash => User.update({ username: username }, { $set: { password: hash }, }))
+      .then(result => result)
+      .catch(error => error);
 };
 
 exports.changeUser = function (username, payload) {
@@ -168,6 +179,14 @@ exports.removeUsers = function (users) {
 
 function checkPassword(payload) {
   return payload.password === payload.passwordConfirm;
+}
+
+function hashPassword(password) {
+  const saltRounds = process.env.SALT_ROUNDS || 10;
+
+  return bcrypt.hash(password, saltRounds)
+      .then(hash => hash)
+      .catch(error => console.log(error));
 }
 
 function simpleChange(username, displayname, email, description) {
