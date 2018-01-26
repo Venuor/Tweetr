@@ -13,7 +13,7 @@ exports.findUser = {
         .then(user => {
           reply(ObjectUtil.getSafeUserObject(user)).code(200);
         }).catch(err => {
-          reply(Boom.badRequest('User not found'));
+          reply(Boom.notFound('User not found'));
         });
   },
 };
