@@ -15,13 +15,20 @@ exports.createToken = function (user) {
     expiresIn: '12h',
   };
 
-  return jwt.sign(payload, 'secretpasswordnotrevealedtoanyone', options);
+  return jwt.sign(
+      payload,
+      process.env.JWT_SECRET || 'secretjwtpasswordnotrevealedtoanyone',
+      options
+  );
 };
 
 exports.decodeToken = function (token) {
   const userInfo = {};
   try {
-    const decoded = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
+    const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET || 'secretjwtpasswordnotrevealedtoanyone'
+    );
     userInfo.userId = decoded.id;
     userInfo.username = decoded.username;
     userInfo.isAdmin = decoded.isAdmin;
