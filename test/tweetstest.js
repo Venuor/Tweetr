@@ -80,7 +80,7 @@ suite('Tweets API tests', () => {
     };
     const token = getLoginToken(login);
 
-    const tweetUrl = tweetEndpoint + '/venour';
+    const tweetUrl = tweetEndpoint + '/' + login.username;
     const res = request('DELETE', tweetUrl, { headers: { Authorization: token } });
 
     assert.equal(res.statusCode, 204);
