@@ -7,6 +7,11 @@ require('./app/model/db');
 const server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 4000, routes: { cors: true } });
 
+let isProduction = false;
+if (process.env.NODE_ENV === 'production') {
+  isProduction = true;
+}
+
 server.register([
     require('inert'),
     require('vision'),
@@ -30,19 +35,19 @@ server.register([
     layoutPath: './app/view/layout',
     partialsPath: './app/view/partials',
     layout: true,
-    isCached: false,
+    isCached: isProduction,
   });
 
   server.auth.strategy('standard', 'cookie', {
-    password: 'secretpasswordnotrevealedtoanyone',
+    password: process.env.COOKIE_SECRET || 'secretcookiepasswordnotrevealedtoanyone',
     cookie: 'tweetr-cookie',
-    isSecure: false,
+    isSecure: isProduction,
     redirectTo: '/login',
     ttl: 24 * 60 * 60 * 1000,
   });
 
   server.auth.strategy('jwt', 'jwt', {
-    key: 'secretpasswordnotrevealedtoanyone',
+    key: process.env.JWT_SECRET || 'secretjwtpasswordnotrevealedtoanyone',
     validateFunc: require('./app/util/jwtutil').validate,
     verifyOptions: { algorithms: ['HS256'] },
   });
