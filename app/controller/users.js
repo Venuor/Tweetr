@@ -136,31 +136,37 @@ exports.unsubscribe = function (from, subscriber) {
 };
 
 exports.removeUsers = function (users) {
+  let _users;
+
   return User.find({ username: { $in: users } })
       .then(users => {
         const promises = [];
+        _users = users;
 
         users.forEach(user => {
-          TweetController.removeAll(user.username)
-              .then(tweets => promises.push(tweets))
-              .catch(error => console.log(error));
-          ImagesController.removeImage(user.image)
-              .then(images => promises.push(images))
-              .catch(error => console.log(error));
+          promises.push(TweetController.removeAll(user.username)
+              .then(tweets => tweets)
+              .catch(error => console.log(error)));
+          promises.push(ImagesController.removeImage(user.image)
+              .then(images => images)
+              .catch(error => console.log(error)));
           user.subscriptions.forEach(subscription => {
-            this.unsubscribe(subscription, user.username)
+            promises.push(this.unsubscribe(subscription, user.username)
                 .then(unsubscribe => promises.push(unsubscribe))
-                .catch(error => console.log(error));
+                .catch(error => console.log(error)));
           });
           user.subscribers.forEach(subscriber => {
-            this.unsubscribe(user.username, subscriber)
+            promises.push(this.unsubscribe(user.username, subscriber)
                 .then(unsubscribe => promises.push(unsubscribe))
-                .catch(error => console.log(error));
+                .catch(error => console.log(error)));
           });
-          user.remove()
-              .then(removed => promises.push(removed))
-              .catch(error => console.log(error));
         });
+
+        return Promise.all(promises);
+      })
+      .then(shit => {
+        const promises = [];
+        _users.forEach(user => promises.push(user.remove()));
 
         return Promise.all(promises);
       })
