@@ -1,5 +1,4 @@
 'use strict';
-import { suite } from 'mocha/lib/runner';
 
 const assert = require('chai').assert;
 const request = require('sync-request');

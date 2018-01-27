@@ -1,5 +1,4 @@
 'use strict';
-import { suite } from 'mocha/lib/runner';
 
 const assert = require('chai').assert;
 const request = require('sync-request');
@@ -88,8 +87,10 @@ suite('Users API tests', () => {
     const adminRes = request('GET', userEndpoint + '/admin');
     const adminResponse = JSON.parse(adminRes.getBody());
 
-    assert.lengthOf(adminResponse.subscribers, 1);
-    assert.equal(adminResponse.subscribers[0], 'test');
+    assert.lengthOf(adminResponse.subscribers, 3);
+    assert.isTrue(adminResponse.subscribers.includes('test'));
+    assert.isTrue(adminResponse.subscribers.includes('user'));
+    assert.isTrue(adminResponse.subscribers.includes('venour'));
   });
 
   test('POST /user/{username}/unsubscribe', () => {
@@ -105,7 +106,9 @@ suite('Users API tests', () => {
     const adminRes = request('GET', userEndpoint + '/admin');
     const adminResponse = JSON.parse(adminRes.getBody());
 
-    assert.lengthOf(adminResponse.subscribers, 0);
+    assert.lengthOf(adminResponse.subscribers, 2);
+    assert.isTrue(adminResponse.subscribers.includes('venour'));
+    assert.isTrue(adminResponse.subscribers.includes('user'));
   });
 
   test('POST /user/{username}/password', () => {
