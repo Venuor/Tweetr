@@ -164,7 +164,7 @@ exports.removeUsers = function (users) {
 
         return Promise.all(promises);
       })
-      .then(shit => {
+      .then(result => {
         const promises = [];
         _users.forEach(user => promises.push(user.remove()));
 
