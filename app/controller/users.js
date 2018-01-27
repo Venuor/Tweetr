@@ -173,6 +173,41 @@ exports.removeUsers = function (users) {
       });
 };
 
+exports.createSocialGraph = async function (username) {
+  const user = await getUserWithPopulatedSubscriptions(username);
+
+  const nodes = [];
+  const links = [];
+  const visitedUsers = [];
+  const usersToVisit = [user];
+
+  while (usersToVisit.length > 0) {
+    const currentUser = usersToVisit.pop();
+    const currentUsername = currentUser.username;
+
+    if (!visitedUsers.includes(currentUsername)) {
+      for (const subscriptionUser of currentUser.subscriptions) {
+        const subUsername = subscriptionUser.username;
+
+        if (!visitedUsers.includes(subUsername)) {
+          const populatedSubscription = await getUserWithPopulatedSubscriptions(subUsername);
+          usersToVisit.push(populatedSubscription);
+        }
+
+        links.push({
+          source: currentUsername,
+          target: subUsername,
+        });
+      }
+
+      visitedUsers.push(currentUsername);
+      nodes.push({ name: currentUsername });
+    }
+  }
+
+  return { links, nodes };
+};
+
 // **************************** //
 //   private helper functions   //
 // **************************** //
@@ -216,4 +251,11 @@ function imageChange(username, displayname, email, description, imageId) {
   }).catch(err => {
     return false;
   });
+}
+
+async function getUserWithPopulatedSubscriptions(username) {
+  return await User.findOne({ username: username })
+      .populate('subscriptions')
+      .then(user => user)
+      .catch(err => console.log(error));
 }

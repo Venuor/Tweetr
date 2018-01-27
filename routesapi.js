@@ -26,4 +26,5 @@ module.exports = [
 
   { method: 'GET', path: '/api/statistics/global', config: Statistics.getGlobal },
   { method: 'GET', path: '/api/statistics/users',  config: Statistics.getUsers },
+  { method: 'GET', path: '/api/statistics/graph/{username}', config: Users.getSocialGraph },
 ];
