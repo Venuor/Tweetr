@@ -48,5 +48,8 @@
       "text": "This was not supposed to happen",
       "image": null
     }
+  },
+  "images": {
+    "_model": "Image"
   }
 }

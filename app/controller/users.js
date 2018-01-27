@@ -86,8 +86,7 @@ exports.changeUser = function (username, payload) {
     if (image !== undefined && image !== null && image.bytes > 0) {
       return this.getUser(username).then(foundUser => ImagesController.removeImage(foundUser.image))
           .then(deleted => ImagesController.saveImage(image.path, image.headers['content-type']))
-          .then(image => {
-            return imageChange(username, displayname, email, description, image._id);})
+          .then(image => imageChange(username, displayname, email, description, image._id))
           .catch(err => {
             throw err;
           });
