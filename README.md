@@ -12,6 +12,8 @@ users you are subscribed to.
 
 There also exists an admin user which can delete any user and Tweet.
 
+The application is currently hosted on [Heroku](https://venour-tweetr.herokuapp.com/).
+
 ## Setup
 
 The Tweetr application is build on node.js, to install all dependencies you will need to call:
