@@ -4,7 +4,7 @@ const Image = require('../model/image');
 const fs = require('fs');
 
 exports.findImageById = function (id) {
-  return Image.findOne({ id: id }).then(image => image)
+  return Image.findOne({ _id: id }).then(image => image)
       .catch(err => {
         throw err;
       });

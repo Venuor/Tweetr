@@ -81,12 +81,13 @@ exports.changeUser = function (username, payload) {
   const setDefaultImage = payload.default_image;
 
   // check if image should be reset to default image
-  if (!setDefaultImage) {
+  if (setDefaultImage === 'false' || !setDefaultImage) {
     // check if new image should be set
     if (image !== undefined && image !== null && image.bytes > 0) {
       return this.getUser(username).then(foundUser => ImagesController.removeImage(foundUser.image))
           .then(deleted => ImagesController.saveImage(image.path, image.headers['content-type']))
-          .then(image => imageChange(username, displayname, email, description, image.id))
+          .then(image => {
+            return imageChange(username, displayname, email, description, image._id);})
           .catch(err => {
             throw err;
           });

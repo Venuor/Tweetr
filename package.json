@@ -18,7 +18,7 @@
     "inert": "^4.2.1",
     "joi": "^13.0.2",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "^5.0.0-rc1",
+    "mongoose": "^4.13.0",
     "mongoose-seeder": "^1.2.1",
     "vision": "^4.1.1"
   },

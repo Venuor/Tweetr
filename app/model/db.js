@@ -14,7 +14,6 @@ mongoose.connection.on('connected', function () {
   console.log('Mongoose connected to ' + dbURI);
 
   if (process.env.NODE_ENV !== 'production') {
-    // This will not work for whatever reasons (fallback is always used)
     const seeder = require('mongoose-seeder');
     const data = require('./initdata.json');
     const User = require('./user');
@@ -27,10 +26,6 @@ mongoose.connection.on('connected', function () {
       }).catch(err => {
         console.log(err);
         console.log('Initiating fallback...');
-
-        require('./manualseeding').seed()
-            .then(() => console.log('Successfully seeded'))
-            .catch(error => console.log(error));
       });
   }
 });
