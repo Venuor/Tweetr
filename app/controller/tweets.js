@@ -15,29 +15,26 @@ exports.write = function (request, username) {
         } else {
           return saveTweet(user.id, text);
         }
-      }).then(newTweet => {
-        return newTweet;
-      }).catch(err => {
+      }).then(newTweet =>  newTweet)
+      .catch(err => {
         throw err;
       });
 };
 
 exports.readTweetsForUser = function (user) {
   return Tweet.find({ user: { $in: user.id } })
-      .sort({ 'date': 'desc' })
+      .sort({ date: 'desc' })
       .populate('user')
-      .then(tweets => {
-        return tweets;
-      }).catch(err => {
+      .then(tweets =>  tweets)
+      .catch(err => {
         throw err;
       });
 };
 
 exports.remove = function (tweetId, username) {
   return UserController.getUser(username)
-      .then(user => {
-        return Tweet.findOneAndRemove({ user: user.id, _id: tweetId });
-      }).then(deleted => {
+      .then(user => Tweet.findOneAndRemove({ user: user.id, _id: tweetId }))
+      .then(deleted => {
         if (deleted === undefined || deleted === null) {
           return null;
         } else if (deleted.image) {
@@ -88,29 +85,27 @@ exports.removeMultiple = function (tweets) {
 
 exports.getSubscribedTweets = function (user) {
   return Tweet.find({ user: { $in: user.subscriptions } })
-      .sort({ 'date': 'desc' })
+      .sort({ date: 'desc' })
       .populate('user')
-      .then(tweets => {
-        return tweets;
-      }).catch(err => {
+      .then(tweets => tweets)
+      .catch(err => {
         throw err;
       });
 };
 
 exports.getAllTweets = function () {
   return Tweet.find({})
-      .sort({ 'date': 'desc' })
+      .sort({ date: 'desc' })
       .populate('user')
-      .then(tweets => {
-        return tweets;
-      }).catch(err => {
+      .then(tweets =>  tweets)
+      .catch(err => {
         throw err;
       });
 };
 
 exports.getTweetsForUsers = function (users) {
   return Tweet.find({})
-      .sort({ 'date': 'desc' })
+      .sort({ date: 'desc' })
       .populate({
         path: 'user',
         match: { username: { $in: users } },
@@ -137,18 +132,16 @@ function saveTweet(userId, text, imageId = null) {
 
 function saveImageThenTweet(userId, text, image) {
   return ImageController.saveImage(image.path, image.headers['content-type'])
-      .then(image => {
-        return saveTweet(userId, text, image.id);
-      }).catch(err => {
+      .then(image => saveTweet(userId, text, image.id))
+      .catch(err => {
         throw err;
       });
 }
 
 function removeTweets(userId) {
   return Tweet.remove({ user: userId })
-      .then(deleted => {
-        return true;
-      }).catch(err => {
+      .then(deleted => deleted)
+      .catch(err => {
         throw err;
       });
 }

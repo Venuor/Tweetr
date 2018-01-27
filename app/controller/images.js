@@ -4,11 +4,10 @@ const Image = require('../model/image');
 const fs = require('fs');
 
 exports.findImageById = function (id) {
-  return Image.findOne({ id: id }).then(image => {
-    return image;
-  }).catch(err => {
-    throw err;
-  });
+  return Image.findOne({ id: id }).then(image => image)
+      .catch(err => {
+        throw err;
+      });
 };
 
 exports.saveImage = function (path, type) {
@@ -25,9 +24,6 @@ exports.removeImage = function (id) {
 
 exports.removeImages = function (ids) {
   return Image.remove({ _id: { $in: ids } })
-      .then(deleted => {
-        return true;
-      }).catch(err => {
-        return false;
-      });
+      .then(deleted => true)
+      .catch(err => false);
 };

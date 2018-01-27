@@ -11,9 +11,8 @@ exports.findTweets = {
   auth: false,
   handler: function (request, reply) {
     UserController.getUser(request.params.username)
-        .then(user => {
-          return TweetController.readTweetsForUser(user);
-        }).then(tweets => {
+        .then(user =>  TweetController.readTweetsForUser(user))
+        .then(tweets => {
           reply(ObjectUtil.getTweetsArray(tweets)).code(200);
         }).catch(err => {
           reply(Boom.badRequest('User not found'));
@@ -38,9 +37,8 @@ exports.timeline = {
   handler: function (request, reply) {
     const info = JwtUtil.decodeToken(request.headers.authorization);
     UserController.getUser(info.username)
-        .then(user => {
-          return TweetController.getSubscribedTweets(user);
-        }).then(tweets => {
+        .then(user => TweetController.getSubscribedTweets(user))
+        .then(tweets => {
           reply(ObjectUtil.getTweetsArray(tweets)).code(200);
         }).catch(err => {
           reply(Boom.badRequest('User not found'));

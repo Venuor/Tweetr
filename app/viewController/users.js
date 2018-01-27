@@ -2,7 +2,7 @@
 
 const UserController = require('../controller/users');
 const TweetController = require('../controller/tweets');
-const Joi = require('Joi');
+const Joi = require('joi');
 
 exports.index = {
   auth: false,

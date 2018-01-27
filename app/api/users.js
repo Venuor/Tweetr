@@ -203,5 +203,5 @@ exports.getSocialGraph = {
   auth: false,
   handler: async function (request, reply) {
     reply(await UserController.createSocialGraph(request.params.username));
-  }
+  },
 };

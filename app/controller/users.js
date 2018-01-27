@@ -39,9 +39,8 @@ exports.login = function (username, password) {
 
 exports.getUser = function (username) {
   return User.findOne({ username: username })
-      .then(foundUser => {
-        return foundUser;
-      }).catch(err => {
+      .then(foundUser => foundUser
+      ).catch(err => {
         throw err;
       });
 };
@@ -49,9 +48,8 @@ exports.getUser = function (username) {
 exports.getUserWithSubscriberNames = function (username) {
   return User.findOne({ username: username })
       .populate('subscriptions', 'username')
-      .then(foundUser => {
-        return foundUser;
-      }).catch(err => {
+      .then(foundUser => foundUser)
+      .catch(err => {
         throw err;
       });
 };
@@ -86,15 +84,12 @@ exports.changeUser = function (username, payload) {
   if (!setDefaultImage) {
     // check if new image should be set
     if (image !== undefined && image !== null && image.bytes > 0) {
-      return this.getUser(username).then(foundUser => {
-        return ImagesController.removeImage(foundUser.image);
-      }).then(deleted => {
-        return ImagesController.saveImage(image.path, image.headers['content-type']);
-      }).then(image => {
-        return imageChange(username, displayname, email, description, image.id);
-      }).catch(err => {
-        throw err;
-      });
+      return this.getUser(username).then(foundUser => ImagesController.removeImage(foundUser.image))
+          .then(deleted => ImagesController.saveImage(image.path, image.headers['content-type']))
+          .then(image => imageChange(username, displayname, email, description, image.id))
+          .catch(err => {
+            throw err;
+          });
     } else {
       return simpleChange(username, displayname, email, description);
     }
@@ -231,11 +226,8 @@ function simpleChange(username, displayname, email, description) {
         email: email,
         description: description,
       },
-  }).then(result => {
-    return true;
-  }).catch(err => {
-    return false;
-  });
+  }).then(result => true)
+      .catch(err => false);
 }
 
 function imageChange(username, displayname, email, description, imageId) {
@@ -246,11 +238,8 @@ function imageChange(username, displayname, email, description, imageId) {
         description: description,
         image: imageId,
       },
-  }).then(result => {
-    return true;
-  }).catch(err => {
-    return false;
-  });
+  }).then(result => true)
+      .catch(err => false);
 }
 
 async function getUserWithPopulatedSubscriptions(username) {
